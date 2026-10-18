@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  --canvas: #f3eee4;
+  --canvas-raised: #faf6ee;
+  --ink: #14120e;
+  --ink-muted: #5c564c;
+  --line: #d8d0c2;
+  --brass: #8f6b32;
+  --brass-soft: #c4a36a;
+  --moss: #3f5a45;
+  --danger: #9b3a2f;
+  --shadow: 0 18px 40px -28px rgb(20 18 14 / 0.45);
+}
+
+.dark {
+  --canvas: #0e0d0b;
+  --canvas-raised: #171512;
+  --ink: #f3eee4;
+  --ink-muted: #b3ab9c;
+  --line: #2c2923;
+  --brass: #d4b57a;
+  --brass-soft: #b8955a;
+  --moss: #8fbf9a;
+  --danger: #e08b7d;
+  --shadow: 0 22px 50px -28px rgb(0 0 0 / 0.7);
+}
+
+@theme inline {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --color-canvas: var(--canvas);
+  --color-canvas-raised: var(--canvas-raised);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-brass: var(--brass);
+  --color-brass-soft: var(--brass-soft);
+  --color-moss: var(--moss);
+  --color-danger: var(--danger);
+}
+
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  overflow-x: clip;
+  overflow-wrap: anywhere;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+  overflow-x: clip;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--brass) 35%, transparent);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.dark .grain {
+  opacity: 0.055;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 0.65s ease,
+    transform 0.65s ease;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hero-enter > * {
+  animation: rise-in 0.7s ease both;
+}
+
+.hero-enter > *:nth-child(1) {
+  animation-delay: 0.05s;
+}
+.hero-enter > *:nth-child(2) {
+  animation-delay: 0.12s;
+}
+.hero-enter > *:nth-child(3) {
+  animation-delay: 0.18s;
+}
+.hero-enter > *:nth-child(4) {
+  animation-delay: 0.26s;
+}
+.hero-enter > *:nth-child(5) {
+  animation-delay: 0.32s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .reveal,
+  .reveal.is-visible,
+  .hero-enter > * {
+    opacity: 1;
+    transform: none;
+    animation: none;
+    transition: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
